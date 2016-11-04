@@ -1,0 +1,15 @@
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+############                      PRACTICA 14                         ############
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+
+require(foreign)
+setwd("C://Users//Sala-C16//Documents")
+mti2013<-data.frame(read.dbf("mti2013_05_17_sdem_precodificado.dbf"))
+
+## Poblacion objetivo son ocupados y zonas rurales
+mti2013v1<-subset(mti2013,mti2013$CLASE2 == 1 & mti2013$T_LOC==4)
+mti2013v1
+
+install.packages("questionr")
+require(questionr)
+wtd.table(mti2013v1$SEX, weights = mti2013v1$FAC_MTI)
