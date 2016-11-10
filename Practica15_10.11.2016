@@ -1,0 +1,27 @@
+PRACTICA 15
+
+
+setwd ("C://Users//Sala-C6.RTIC-C6-HP//Desktop")
+require(foreign)
+
+sdem<-read.dbf("sdemt.2016.dbf")
+coe1<-read.dbf("coet.2016.dbf")
+coe2<-read.dbf("coe2t.2016.dbf")
+
+folio<-paste(sdem$CD_A,sdem$ENT,sdem$CON,sdem$V_SEL,sdem$N_HOG,sdem$H_MUD,sdem$N_REN)
+x<-data.frame(sdem,folio)
+
+folio<-paste(coe1$CD_A,coe1$ENT,coe1$CON,coe1$V_SEL,coe1$N_HOG,coe1$H_MUD,coe1$N_REN)
+x1<-data.frame(coe1,folio)
+
+folio<-paste(coe2$CD_A,coe2$ENT,coe2$CON,coe2$V_SEL,coe2$N_HOG,coe2$H_MUD,coe2$N_REN)
+x3<-data.frame(coe2,folio)
+
+total<-merge(x,x1,by = "folio",all.x = T,all.y = T)
+Enoetotal<-merge(total,x2,by = "folio",all.x = T,all.y = T)
+
+
+#Seleccionando asalariados
+asalariados<-subset(motral,as.numeric(as.character(motral$P5))==1)
+
+wtd.table(asalariados$SEX,weights = asalariados$FAC)
