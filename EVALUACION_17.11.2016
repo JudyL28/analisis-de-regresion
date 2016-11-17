@@ -1,0 +1,51 @@
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+############                      PRACTICA 17                         ############
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+
+install.packages("foreign")
+require(foreign)
+install.packages("questionr")
+require(questionr)
+solorural<-data.frame(read.spss("C://Users//Sala-C16//Downloads//solorural.sav"))
+
+#Niñas y niños
+wtd.table(solorural$sex)
+# Hay  niños    niñas
+#      9302     8798
+
+wtd.table(solorural$sex, weights = solorural$fac_mti)
+# Hay  niños    niñas     EXPANDIDO
+#      4061217  3800117
+
+wtd.table(solorural$sex,solorural$clase2==1,weights = solorural$fac_mti)
+#        FALSE    TRUE
+#hombres 3438725  622492    OCUPADOS
+#mujeres 3595147  204970
+
+#porcentaje de ocupados
+a<-(622492/4061217)*100
+b<-(204970/3800117)*100
+a
+b
+a+b
+((1414+474)/(4061217+3800117))*100
+#           % de ocupacion
+#hombres       15.32772
+#mujeres        5.393781
+
+
+#ocupados por grupo de edad
+solorural$c_ocu<-as.numeric(as.character(solorural$c_ocu))
+ocup<-subset(solorural,solorural$clase2==1,weights=solorural$fac_mti)
+
+ocup$eda111<-ifelse(as.numeric(ocup$eda) >= 5 & as.numeric(ocup$eda)<=9,1,
+                         ifelse(as.numeric(ocup$eda) >= 10 & as.numeric(ocup$eda)<=13,2,3))
+table(ocup$eda111)
+wtd.table(ocup$eda111,weights = ocup$fac_mti)
+#                                     de 5 a 9          de 10 a 13         de 14 a 17
+# Ocupados por grupos de edad             0               158695             668767
+
+#ocupados segun asistencia escolar
+wtd.table(ocup$asis,weights = ocup$fac_mti)
+#                                       Asiste            No asiste
+#ocupados segun asistencia escolar      442632              384830
